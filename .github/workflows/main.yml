@@ -1,0 +1,31 @@
+name: CodeHealth CI/CD
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Etapa de Build
+        run: echo "Compilando aplicação"
+
+      - name: Etapa de Testes
+        run: |
+          echo "Executando testes..."
+          if [ -f "index.html" ]; then
+            echo "Testes aprovados!"
+          else
+            echo "Testes falharam!" && exit 1
+          fi
+
+      - name: Etapa de Deploy (simulada)
+        if: success()
+        run: |
+          echo "Gerando artefato de homologação..."
+          mkdir -p staging
+          zip -r staging/app.zip index.html
+          echo "Deploy concluído!"
